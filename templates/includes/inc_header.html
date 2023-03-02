@@ -1,0 +1,31 @@
+{% load static %}
+<div class="container bg-dark min-vw-100 d-flex justify-content-between text-white">
+    <div>
+        <a href="/" class="align-items-center text-white text-decoration-none">
+            <i class="bi bi-arrows-fullscreen"></i> <span class="fs-5 d-none d-sm-inline">Food_Diary</span>
+        </a>
+    </div>
+    {% if user.is_authenticated %}
+    <div>
+        {% if user.is_superuser %}
+        <a href="{% url 'admin:index' %}" class="nav-link align-middle px-0 link-light" target="_blank">
+            <i class="bi bi-diagram-3"></i> <span class="ms-1 d-none d-sm-inline color-white">Админка</span>
+        </a>
+        {% endif %}
+    </div>
+    <div id="user_place">
+        <a href="" class="link-light">
+            Мое питание
+        </a> |
+        {% if user.first_name %}
+            {{user.first_name}}
+        {% else %}
+            {{user.username}}
+        {% endif %} |
+        <a href="{% url 'logout' %}" class="link-light">Выход</a>
+    {% else %}
+        <a href="{% url 'login' %}" class="link-light">Вход</a>
+    {% endif %}
+    </div>
+</div>
+<div style="padding-bottom: 20px;"></div>

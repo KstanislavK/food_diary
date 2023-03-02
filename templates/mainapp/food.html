@@ -1,0 +1,53 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+
+{% block content %}
+    <!-- Строка поиска -->
+    <div class="container d-flex justify-content-around">
+        <div class="col-6">
+            <form action="/" method="post" class="col-auto mb-3">
+                {% csrf_token %}
+                <div class="input-group mb-3">
+                    <input type="text"
+                           class="form-control"
+                           placeholder="Введите название продукта..."
+                           {%if dfs%} value="{{dfs}}" {%endif%}
+                           name="data_for_search">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="submit" value="OK">Поиск</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div>
+            <a href="{% url 'mainapp:food_intake_create' %}" class="btn btn-outline-primary" type="submit" value="OK">Добавить</a>
+        </div>
+    </div>
+    <!-- Основной контент -->
+    <div class="container">
+        {% if objects %}
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Дата</th>
+                    <th>Прием</th>
+                    <th>Продукты</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for object in objects %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'mainapp:food_intake_update' object.pk %}">
+                                {{ object.created_at }}
+                            </a>
+                        </td>
+                        <td>{{ object.e_time }}</td>
+                        <td colspan="2">{{ object.food }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {%  endif %}
+    </div>
+{% endblock %}
